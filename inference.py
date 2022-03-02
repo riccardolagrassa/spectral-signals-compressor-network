@@ -73,6 +73,8 @@ def save_tiff_gdal_rosetta(path, data,valid_dataset):
 
 def validate(encoder, decoder, valid_dataloader, results_dir, valid_dir, channels,valid_dataset) -> float:
     batches = len(valid_dataloader)
+    print(batches)
+    exit()
     encoder.eval()
     decoder.eval()
 

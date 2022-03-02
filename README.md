@@ -9,3 +9,5 @@ Experimental results demonstrate the effectiveness in the compression ratio and 
 
 # Pretrained models link
 https://drive.google.com/drive/folders/1js1e1EtrePl2jYq5HV-AHcdQiklF0fK3?usp=sharing
+## Colab (for inference)
+https://colab.research.google.com/drive/1pH7DX-CMLdhEneZTFULnzQxQScHtbDTj?usp=sharing
