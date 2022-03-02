@@ -158,6 +158,7 @@ def main() -> None:
     parser.add_argument("--model_path_encoder", type=str, default='None', help="path pretrained")
     parser.add_argument("--model_path_decoder", type=str, default='None', help="path pretrained")
     parser.add_argument("--dataset", type=str, default='lombardia', help="dataset")
+    parser.add_argument("--last_layer", type=str, default='linear', help="last layer mode")
     parser.add_argument("--latent_space", type=int, default=13824, help="latent space")
 
     torch.cuda.manual_seed_all(0)  # Set random seed.
@@ -203,34 +204,32 @@ def main() -> None:
         from SSCNet_lomb import Encoder, Decoder
         encoder = Encoder(opt.latent_space,opt.channels)
         decoder = Decoder(opt.latent_space,opt.channels)
+
     elif opt.dataset == 'rosetta':
-        #import SSCnet_lastconv for last conv implementation
+        if opt.last_layer == 'conv':
+            from SSCNet_lastconv import Decoder, Encoder
+            encoder = Encoder(opt.channels)
+            decoder = Decoder(opt.channels)
+        elif opt.last_layer == 'linear':
+            from CAE_model import Decoder, Encoder
+            encoder = Encoder(opt.latent_space, opt.channels)
+            decoder = Decoder(opt.latent_space, opt.channels)
+
+    elif opt.dataset == 'Imagenet-ILSVRC2012':
         from CAE_model import Decoder, Encoder
         encoder = Encoder(opt.latent_space, opt.channels)
         decoder = Decoder(opt.latent_space, opt.channels)
-    elif opt.dataset == 'Imagenet-ILSVRC2012':
-        #import SSCnet_lastconv for last conv implementation
-        from SSCNet_lastconv import Decoder, Encoder
-        # encoder = Encoder(opt.latent_space, opt.channels)
-        # decoder = Decoder(opt.latent_space, opt.channels)
-        encoder = Encoder(423)
-        decoder = Decoder(423)
 
     encoder = nn.DataParallel(encoder).cuda()
     decoder = nn.DataParallel(decoder).cuda()
 
-    encoder_parameters = count_parameters(encoder)
-    decoder_parameters = count_parameters(decoder)
-    print("Encoder parameters: ", encoder_parameters)
-    print("Decoder parameters: ", decoder_parameters)
-    print(torchsummary.summary(encoder, (423, 64, 64)))
-    exit()
+    # encoder_parameters = count_parameters(encoder)
+    # decoder_parameters = count_parameters(decoder)
+    # print("Encoder parameters: ", encoder_parameters)
+    # print("Decoder parameters: ", decoder_parameters)
+    # print(torchsummary.summary(encoder, (423, 64, 64)))
 
     state_dict_encoder = torch.load(opt.model_path_encoder)
-    # print("Model's state_dict:")
-    # for param_tensor in state_dict_encoder.items():
-    #     print(param_tensor[1].shape)
-    # exit()
     encoder.load_state_dict(state_dict_encoder)
     state_dict_decoder = torch.load(opt.model_path_decoder)
     decoder.load_state_dict(state_dict_decoder)
