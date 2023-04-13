@@ -11,3 +11,27 @@ Experimental results demonstrate the effectiveness in the compression ratio and 
 https://drive.google.com/drive/folders/1js1e1EtrePl2jYq5HV-AHcdQiklF0fK3?usp=sharing
 ## Colab (for inference)
 https://colab.research.google.com/drive/1pH7DX-CMLdhEneZTFULnzQxQScHtbDTj?usp=sharing
+
+
+## License
+
+The project is licensed under the GPL-3.0 license 
+
+
+## BibTeX Citation
+
+If you use the Spectral Signals Compressor network in a scientific publication, we would appreciate using the following citation:
+
+```
+
+
+@article{la2022hyperspectral,
+  title={Hyperspectral Data Compression Using Fully Convolutional Autoencoder},
+  author={La Grassa, Riccardo and Re, Cristina and Cremonese, Gabriele and Gallo, Ignazio},
+  journal={Remote Sensing},
+  volume={14},
+  number={10},
+  pages={2472},
+  year={2022},
+  publisher={MDPI}
+}
